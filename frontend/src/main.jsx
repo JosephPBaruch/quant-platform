@@ -2,10 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import ClientDialog from './Other.js'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClientDialog />
+    <App />
   </StrictMode>,
 )

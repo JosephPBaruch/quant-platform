@@ -1,0 +1,264 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="661px" height="331px" viewBox="-0.5 -0.5 661 331" content="&lt;mxfile&gt;&lt;diagram id=&quot;Bbzej6klWt4i-9La0X4g&quot; name=&quot;Page-1&quot;&gt;7VpLc5swEP41HNMBZKhzDM6jPbSHOm3PCmxAE0BUiGL311dCIrYMzGQ6fsXVxRafVrvst2hZFhy0KFYPDFfZF5pA7vhusnLQreP73iwIxZ9E1goJvLkCUkYSLbQBluQPaNDVaEMSqA1BTmnOSWWCMS1LiLmBYcZoa4o909y0WuEUBsAyxvkQ/UkSnil0Hrgb/BOQNOste66eKXAvrIE6wwlttyB056AFo5SrUbFaQC7J63lR6+4nZl9PjEHJ37LAVwt+47zRvunz4uveWUabMgEp7zooajPCYVnhWM62IrwCy3iRiyNPDLU6YBxWk6fkvToqrhCgBXC2FiL9gp4bfXF4SB+3G6rDUGPZFs2oF8Q6vOmr7g0DYqBJGCcEnSEhgUmIPxshxB0hxJvvgZDZgJBHwnP44PghLqSz5VNddY66/wY9kvgFmNSXi/OO6gqXBt/hr0buBkX0Va2YvpEMMug09gJilOp/x0fXanQwnYI3pVYJ1BwzfkR7RzQFZXKZjpEyZlDIXXg8m0uOeVO/84v9BKZ24SB6oE5wK/NJEP0g0IrRN6gbISzRKV1mMgoiUZkAh27JqbN8uJPlg2GWD+Zjt709JPlgkOQjHL9wqDkp0wE1wklu+o9zkpZiHAtngQlAUkFEwXSjJwqSJHL5KJEm1Yfg0h27Yx6GyvmAyq+4gMvenNaUNWVNWVPWlDVlC1RV58u6x3c/l90T77341cj36vSlJtrpsIw1FNCB6qO+h2d0WBSFz1Q+io1ES05c1V0bUMbKn1WriWBth0Op62cmOfeOwvlHd6ck9Yacz0Yo9/dBuWd7OG/ZyraH8/4csz2c84/RFHz5PZzrI/ZwvOG7HJvlbZa/CMdslj//GP23WR6NvKDeV5YXh5uPAbq5rU8q0N1f&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <g>
+            <rect x="0" y="0" width="660" height="330" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="30" y="110" width="600" height="180" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="40" y="120" width="580" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 578px; height: 1px; padding-top: 135px; margin-left: 41px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Title.       Ticker.
+                                    <span style="white-space: pre;">
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        start
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        end
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        increment
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        Status
+                                        <span style="white-space: pre;">
+                                            <span style="white-space: pre;">
+                                            </span>
+                                            <span style="white-space: pre;">
+                                            </span>
+                                        </span>
+                                        [Go] [View Result]
+                                    </span>
+                                    [delete]
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="330" y="139" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Title.       Ticker.		start		end		increment	Status			[Go] [View Result] [delete]
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="40" y="70" width="60" height="30" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 58px; height: 1px; padding-top: 85px; margin-left: 41px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Backtesting
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="70" y="89" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Backtesting
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="10" y="10" width="630" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 628px; height: 1px; padding-top: 25px; margin-left: 11px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Name
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                    </span>
+                                    <span style="white-space: pre;">
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                    </span>
+                                    Sign In / Sign Up
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="325" y="29" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Name																			Sign In / Sign Up
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="580" y="80" width="40" height="20" rx="3" ry="3" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 38px; height: 1px; padding-top: 90px; margin-left: 581px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <font style="font-size: 24px;">
+                                        +
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="600" y="94" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        +
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="40" y="160" width="580" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 578px; height: 1px; padding-top: 175px; margin-left: 41px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Title.       Ticker.
+                                    <span style="white-space: pre;">
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        start
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        end
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        increment
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        Status
+                                        <span style="white-space: pre;">
+                                            <span style="white-space: pre;">
+                                            </span>
+                                            <span style="white-space: pre;">
+                                            </span>
+                                        </span>
+                                        [Go] [View Result]
+                                    </span>
+                                    [delete]
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="330" y="179" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Title.       Ticker.		start		end		increment	Status			[Go] [View Result] [delete]
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="40" y="200" width="580" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 578px; height: 1px; padding-top: 215px; margin-left: 41px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Title.       Ticker.
+                                    <span style="white-space: pre;">
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        start
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        end
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        increment
+                                        <span style="white-space: pre;">
+                                        </span>
+                                        Status
+                                        <span style="white-space: pre;">
+                                            <span style="white-space: pre;">
+                                            </span>
+                                            <span style="white-space: pre;">
+                                            </span>
+                                        </span>
+                                        [Go] [View Result]
+                                    </span>
+                                    [delete]
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="330" y="219" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Title.       Ticker.		start		end		increment	Status			[Go] [View Result] [delete]
+                    </text>
+                </switch>
+            </g>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Text is not SVG - cannot display
+            </text>
+        </a>
+    </switch>
+</svg>
