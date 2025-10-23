@@ -1,0 +1,87 @@
+# .gitignore for a React + Vite project
+# See https://github.com/github/gitignore for templates
+
+#############################
+# Node
+#############################
+node_modules/
+/.pnp
+.pnp.js
+.pnp.cjs
+
+# Yarn v2+ (optional caches)
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+#############################
+# Build / dev output
+#############################
+dist/
+build/
+public/build/
+.vite/
+.parcel-cache/
+.cache/
+
+#############################
+# Environment files
+#############################
+.env
+.env.local
+.env.*.local
+!.env.example
+
+#############################
+# Logs
+#############################
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+#############################
+# OS files
+#############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+#############################
+# Editors and IDEs
+#############################
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+#############################
+# Test coverage and reports
+#############################
+coverage/
+.nyc_output/
+jest-*.json
+coverage-final.json
+*.lcov
+
+#############################
+# TypeScript
+#############################
+*.tsbuildinfo
+
+#############################
+# Misc
+#############################
+*.pem
+*.p12
+*.tgz
+*.gz
+.cache-loader
+.eslintcache
+node-repl-history
