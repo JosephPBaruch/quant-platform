@@ -8,19 +8,25 @@ import Button from "@mui/material/Button"
 import { PostBacktest } from "./Fetch"
 
 export interface Values  {
-  Ticker: string
-  Start: string
-  End: string
-  Increment: string
-  StartingCash: number
+  ticker: string
+  start: string
+  end: string
+  increment: string
+  startingCash: number
+}
+
+export interface Backtest {
+  Id: String, 
+  Name: String, 
+  Params: Values
 }
 
 const defaultValues: Values = {
-  Ticker: "AAPL",
-  Start: "2006-1-1",
-  End: "2008-1-1",
-  Increment: "daily",
-  StartingCash: 10000,
+  ticker: "AAPL",
+  start: "2006-1-1",
+  end: "2008-1-1",
+  increment: "daily",
+  startingCash: 10000,
 }
 
 export interface DialogProps {
@@ -32,16 +38,17 @@ export function BacktestingConfigurator({open, onClose}: DialogProps): React.Rea
   const [values, setValues] = useState<Values>(defaultValues)
 
   const fields: { label: string; id: string; key: keyof Values; type?: string }[] = [
-    { label: "Ticker", id: "ticker", key: "Ticker" },
-    { label: "Start", id: "start", key: "Start" },
-    { label: "End", id: "end", key: "End" },
-    { label: "Increment", id: "increment", key: "Increment" },
-    { label: "Starting Cash", id: "startingCash", key: "StartingCash", type: "number" },
+    { label: "Ticker", id: "ticker", key: "ticker" },
+    { label: "Start", id: "start", key: "start" },
+    { label: "End", id: "end", key: "end" },
+    { label: "Increment", id: "increment", key: "increment" },
+    { label: "Starting Cash", id: "startingCash", key: "startingCash", type: "number" },
   ]
 
   const onRun = async () => {
     try {
       await PostBacktest(values)
+      
       onClose()
     } catch (e) {
       console.log(e)

@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { BacktestingConfigurator, Values } from "./ConfigurationDialog";
+import { Backtest, BacktestingConfigurator, Values } from "./ConfigurationDialog";
 import { GetBacktest } from "./Fetch";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
 
 export interface Response {
   config: Values;
@@ -12,50 +18,49 @@ export interface Response {
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<Response | undefined>(undefined);
+  const [tableVals, setTableVals] = useState<Backtest[] | undefined>(undefined)
 
 
    const fetchData = async () => {
       try {
         const result = await GetBacktest();
 
-        setData(result);
+        setTableVals(result);
       } catch (err) {
         console.error("Error fetching backtest:", err);
       }
     };
 
-  const config: {label: string, key: keyof Values}[] = [
-    {
-      label: "Ticker",
-      key: "Ticker"
-    },
-    {
-      label: "Start",
-      key: "Start"
-    },
-    {
-      label: "End",
-      key: "End"
-    },
-    {
-      label: "Increment",
-      key: "Increment"
-    },
-    {
-      label: "Starting Cash", 
-      key: "StartingCash"
-    }
-  ]
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  // const config: {label: string, key: keyof Values}[] = [
+  //   {
+  //     label: "Ticker",
+  //     key: "Ticker"
+  //   },
+  //   {
+  //     label: "Start",
+  //     key: "Start"
+  //   },
+  //   {
+  //     label: "End",
+  //     key: "End"
+  //   },
+  //   {
+  //     label: "Increment",
+  //     key: "Increment"
+  //   },
+  //   {
+  //     label: "Starting Cash", 
+  //     key: "StartingCash"
+  //   }
+  // ]
 
   return (
     <>
       <Typography>Backtesting</Typography>
-
-      {data !== undefined && config.map((s) => (
-        <Typography key={s.key}>{s.label}: {String(data.config[s.key])}</Typography>
-      ))}
-      {data !== undefined && <Typography>Ending Cash: {data.endingCash}</Typography>}
 
       <Button onClick={() => setOpen(!open)}>Open/Close</Button>
 
@@ -68,6 +73,42 @@ function App() {
           }}
         />
       )}
+      <TableContainer>
+            <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Nam</TableCell>
+          <TableCell>Ticker</TableCell>
+          <TableCell>Start Date</TableCell>
+          <TableCell>End Date</TableCell>
+          <TableCell>Increment</TableCell>
+          <TableCell>Starting Cash</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {tableVals !== undefined && 
+          tableVals.map((val) => (
+            <>
+            <TableCell>{val.Name}</TableCell>
+          <TableCell>{val.Params.ticker}</TableCell>
+          <TableCell>{val.Params.start}</TableCell>
+          <TableCell>{val.Params.end}</TableCell>
+          <TableCell>{val.Params.increment}</TableCell>
+          <TableCell>{val.Params.startingCash}</TableCell>
+          </>
+          ))
+
+
+        }
+
+          
+
+
+      </TableBody>
+    </Table>
+      </TableContainer>
+
+
     </>
   );
 }
