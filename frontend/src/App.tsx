@@ -14,6 +14,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import { AddStrategy } from "./AddStrategy";
 
 export interface Response {
   config: Values;
@@ -21,7 +22,8 @@ export interface Response {
 }
 
 function App() {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [openAddStrategy, setOpenAddStrategy] = useState(false);
   const [tableVals, setTableVals] = useState<Backtest[] | undefined>(undefined);
 
   const fetchData = async () => {
@@ -64,9 +66,13 @@ function App() {
   return (
     <>
       <Typography>Backtesting</Typography>
-
-      <Button onClick={() => setOpen(!open)}>Open/Close</Button>
-
+      <Button onClick={() => setOpenAddStrategy(true)}>Add Strategy</Button>
+      <AddStrategy
+        open={openAddStrategy}
+        onClose={() => setOpenAddStrategy(false)}
+      />
+      {/* <Button onClick={() => setOpen(!open)}>Open/Close</Button> */}
+      {/* 
       {open && (
         <BacktestingConfigurator
           open={open}
@@ -75,7 +81,7 @@ function App() {
             fetchData();
           }}
         />
-      )}
+      )} */}
       <TableContainer>
         <Table>
           <TableHead>
