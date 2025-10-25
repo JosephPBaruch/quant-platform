@@ -6,10 +6,12 @@ import (
 	"io"
 	"os"
 	"strconv"
+
+	"github.com/JosephPBaruch/backtesting/strategies"
 )
 
 // loadBarsFromCSV reads the given CSV file path (with header) and returns a slice of Bar.
-func loadBarsFromCSV(path string) ([]Bar, error) {
+func loadBarsFromCSV(path string) ([]strategies.Bar, error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("open csv: %w", err)
@@ -23,7 +25,7 @@ func loadBarsFromCSV(path string) ([]Bar, error) {
 		return nil, fmt.Errorf("read header: %w", err)
 	}
 
-	var bars []Bar
+	var bars []strategies.Bar
 	for {
 		rec, err := r.Read()
 		if err == io.EOF {
@@ -93,7 +95,7 @@ func loadBarsFromCSV(path string) ([]Bar, error) {
 			return nil, fmt.Errorf("parse splitFactor %q: %w", rec[12], err)
 		}
 
-		bars = append(bars, Bar{
+		bars = append(bars, strategies.Bar{
 			Date:        rec[0],
 			Close:       closeF,
 			High:        highF,

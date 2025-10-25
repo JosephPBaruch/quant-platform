@@ -85,3 +85,6 @@ coverage-final.json
 .cache-loader
 .eslintcache
 node-repl-history
+
+backend/*.csv
+backend/backtesting/*.csv

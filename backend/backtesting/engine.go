@@ -1,12 +1,16 @@
 package backtesting
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/JosephPBaruch/backtesting/strategies"
+)
 
 // Backtest runs the provided StrategyFunc over bars.
 // Behavior: each Buy signal attempts to buy one share (if cash available). Each Sell signal sells one oldest share (FIFO) if any exist.
 // Remaining positions are liquidated at the final close price.
 // Returns final balance and slice of executed trades.
-func BacktestFunc(bars []Bar, startBalance float64, strat StrategyFunc) (float64, []Trade) {
+func BacktestFunc(bars []strategies.Bar, startBalance float64, strat StrategyFunc) (float64, []Trade) {
 	if len(bars) == 0 {
 		return startBalance, nil
 	}
@@ -21,20 +25,20 @@ func BacktestFunc(bars []Bar, startBalance float64, strat StrategyFunc) (float64
 		price := bars[i].Open
 
 		switch sig {
-		case Buy:
+		case strategies.Buy:
 			if balance >= price {
 				balance -= price
 				account = append(account, price)
-				trades = append(trades, Trade{Index: i, Type: Buy, Price: price})
+				trades = append(trades, Trade{Index: i, Type: strategies.Buy, Price: price})
 			}
-		case Sell:
+		case strategies.Sell:
 			if len(account) > 0 {
 				// remove oldest
 				account = account[1:]
 				balance += price
-				trades = append(trades, Trade{Index: i, Type: Sell, Price: price})
+				trades = append(trades, Trade{Index: i, Type: strategies.Sell, Price: price})
 			}
-		case Hold:
+		case strategies.Hold:
 			// do nothing
 		}
 	}
@@ -45,7 +49,7 @@ func BacktestFunc(bars []Bar, startBalance float64, strat StrategyFunc) (float64
 		for len(account) > 0 {
 			account = account[1:]
 			balance += lastPrice
-			trades = append(trades, Trade{Index: len(bars) - 1, Type: Sell, Price: lastPrice})
+			trades = append(trades, Trade{Index: len(bars) - 1, Type: strategies.Sell, Price: lastPrice})
 		}
 	}
 
