@@ -2,19 +2,16 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import {
-  Backtest,
-  BacktestingConfigurator,
-  Values,
-} from "./ConfigurationDialog";
-import { GetBacktest } from "./Fetch";
+import { GetBacktest, PostBacktest } from "./Fetch";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { AddStrategy } from "./AddStrategy";
+import { AddStrategy, Backtest, Values } from "./AddStrategy";
+import TextField from "@mui/material/TextField";
+import AppBar from "@mui/material/AppBar";
 
 export interface Response {
   config: Values;
@@ -22,7 +19,6 @@ export interface Response {
 }
 
 function App() {
-  // const [open, setOpen] = useState(false);
   const [openAddStrategy, setOpenAddStrategy] = useState(false);
   const [tableVals, setTableVals] = useState<Backtest[] | undefined>(undefined);
 
@@ -40,48 +36,62 @@ function App() {
     fetchData();
   }, []);
 
-  // const config: {label: string, key: keyof Values}[] = [
-  //   {
-  //     label: "Ticker",
-  //     key: "Ticker"
-  //   },
-  //   {
-  //     label: "Start",
-  //     key: "Start"
-  //   },
-  //   {
-  //     label: "End",
-  //     key: "End"
-  //   },
-  //   {
-  //     label: "Increment",
-  //     key: "Increment"
-  //   },
-  //   {
-  //     label: "Starting Cash",
-  //     key: "StartingCash"
-  //   }
-  // ]
+  const handleTableCellChange = (
+    targetId: string,
+    value: string,
+    target: string
+  ) => {
+    setTableVals((prev) =>
+      prev
+        ? prev.map((item) =>
+            item.Id === targetId ? { ...item, [target]: value } : item
+          )
+        : prev
+    );
+  };
+
+  const handleParamChange = (
+    targetId: string,
+    field: string,
+    value: string
+  ) => {
+    setTableVals((prev) =>
+      prev
+        ? prev.map((item) =>
+            item.Id === targetId
+              ? { ...item, Params: { ...item.Params, [field]: value as any } }
+              : item
+          )
+        : prev
+    );
+  };
+
+  const onRun = async (id: string) => {
+    try {
+      const item = tableVals?.find((item) => item.Id === id);
+      if (!item) {
+        console.error("No backtest found with id:", id);
+        return;
+      }
+
+      await PostBacktest(item);
+    } catch (err) {
+      console.error("Error running backtesting:", err);
+    }
+  };
 
   return (
     <>
-      <Typography>Backtesting</Typography>
-      <Button onClick={() => setOpenAddStrategy(true)}>Add Strategy</Button>
+      <AppBar>
+        <Typography variant="h5">Backtesting</Typography>
+      </AppBar>
+      <Button variant="contained" onClick={() => setOpenAddStrategy(true)}>
+        Add Strategy
+      </Button>
       <AddStrategy
         open={openAddStrategy}
         onClose={() => setOpenAddStrategy(false)}
       />
-      {/* <Button onClick={() => setOpen(!open)}>Open/Close</Button> */}
-      {/* 
-      {open && (
-        <BacktestingConfigurator
-          open={open}
-          onClose={() => {
-            setOpen(false);
-            fetchData();
-          }}
-        />
-      )} */}
       <TableContainer>
         <Table>
           <TableHead>
@@ -97,13 +107,68 @@ function App() {
           <TableBody>
             {tableVals !== undefined &&
               tableVals.map((val) => (
-                <TableRow>
-                  <TableCell>{val.Name}</TableCell>
-                  <TableCell>{val.Params.ticker}</TableCell>
-                  <TableCell>{val.Params.start}</TableCell>
-                  <TableCell>{val.Params.end}</TableCell>
-                  <TableCell>{val.Params.increment}</TableCell>
-                  <TableCell>{val.Params.startingCash}</TableCell>
+                <TableRow key={val.Id}>
+                  <TableCell>
+                    <TextField
+                      value={val.Name}
+                      onChange={(e) =>
+                        handleTableCellChange(val.Id, e.target.value, "Name")
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.ticker}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "ticker", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.start}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "start", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.end}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "end", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.increment}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "increment", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.startingCash as any}
+                      onChange={(e) =>
+                        handleParamChange(
+                          val.Id,
+                          "startingCash",
+                          e.target.value
+                        )
+                      }
+                      variant="standard"
+                    />
+                    <Button variant="contained" onClick={() => onRun(val.Id)}>
+                      Run
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
