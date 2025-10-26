@@ -50,6 +50,22 @@ function App() {
     );
   };
 
+  const handleParamChange = (
+    targetId: string,
+    field: string,
+    value: string
+  ) => {
+    setTableVals((prev) =>
+      prev
+        ? prev.map((item) =>
+            item.Id === targetId
+              ? { ...item, Params: { ...item.Params, [field]: value as any } }
+              : item
+          )
+        : prev
+    );
+  };
+
   return (
     <>
       <Typography>Backtesting</Typography>
@@ -75,7 +91,7 @@ function App() {
           <TableBody>
             {tableVals !== undefined &&
               tableVals.map((val) => (
-                <TableRow>
+                <TableRow key={val.Id}>
                   <TableCell>
                     <TextField
                       value={val.Name}
@@ -84,11 +100,55 @@ function App() {
                       }
                     />
                   </TableCell>
-                  <TableCell>{val.Params.ticker}</TableCell>
-                  <TableCell>{val.Params.start}</TableCell>
-                  <TableCell>{val.Params.end}</TableCell>
-                  <TableCell>{val.Params.increment}</TableCell>
-                  <TableCell>{val.Params.startingCash}</TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.ticker}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "ticker", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.start}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "start", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.end}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "end", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.increment}
+                      onChange={(e) =>
+                        handleParamChange(val.Id, "increment", e.target.value)
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      value={val.Params.startingCash as any}
+                      onChange={(e) =>
+                        handleParamChange(
+                          val.Id,
+                          "startingCash",
+                          e.target.value
+                        )
+                      }
+                      variant="standard"
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
