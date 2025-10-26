@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { PostBacktest } from "./Fetch";
+import { GetStrategies, PostStrategy } from "./Fetch";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 export interface Values {
   ticker: string;
@@ -39,10 +42,25 @@ export function AddStrategy({
   onClose,
 }: DialogProps): React.ReactElement {
   // TODO: Get the strategies
+  const [strat, setStrat] = useState<string[]>([]);
+  const [selected, setSelected] = useState("");
+
+  const fetchStrats = async () => {
+    try {
+      const strategies = await GetStrategies();
+      setStrat(strategies);
+    } catch (err) {
+      console.error("Error fetching strategies:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchStrats();
+  }, [open]);
 
   const onRun = async () => {
     try {
-      //   await PostStrategy(values);
+      await PostStrategy(selected);
       onClose();
     } catch (e) {
       console.log(e);
@@ -52,7 +70,21 @@ export function AddStrategy({
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add Strategy</DialogTitle>
-      <DialogContent>{/* Select */}</DialogContent>
+      <DialogContent>
+        <FormControl fullWidth>
+          <InputLabel id="select-strategy">Strategies</InputLabel>
+          <Select
+            labelId="select-strategy"
+            value={selected}
+            label="Strategies"
+            onChange={(e) => setSelected(e.target.value)}
+          >
+            {strat.length > 0 &&
+              strat.map((s) => <MenuItem value={s}>{s}</MenuItem>)}
+          </Select>
+        </FormControl>
+      </DialogContent>
+
       <DialogActions>
         <Button onClick={() => onClose()}>Cancel</Button>
         <Button variant="contained" onClick={() => onRun()}>
