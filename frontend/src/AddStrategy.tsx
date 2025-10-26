@@ -41,7 +41,6 @@ export function AddStrategy({
   open,
   onClose,
 }: DialogProps): React.ReactElement {
-  // TODO: Get the strategies
   const [strat, setStrat] = useState<string[]>([]);
   const [selected, setSelected] = useState("");
 
