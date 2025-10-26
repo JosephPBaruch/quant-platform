@@ -19,8 +19,8 @@ export interface Values {
 }
 
 export interface Backtest {
-  Id: String;
-  Name: String;
+  Id: string;
+  Name: string;
   Params: Values;
 }
 

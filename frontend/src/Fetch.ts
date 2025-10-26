@@ -68,7 +68,7 @@ export const GetStrategies = async () => {
   return ret;
 };
 
-export const PostStrategy = async (name: String): Promise<void> => {
+export const PostStrategy = async (name: string): Promise<void> => {
   const response = await fetch("http://localhost:8080/backtest", {
     method: "POST",
     headers: {
