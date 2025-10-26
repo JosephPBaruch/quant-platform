@@ -1,4 +1,5 @@
 import { Backtest } from "./AddStrategy";
+import { Results } from "./ViewResults";
 
 export const PostBacktest = async (backtest: Backtest): Promise<void> => {
   const response = await fetch(
@@ -31,7 +32,7 @@ export const GetResults = async (id: string) => {
 
   const raw = await response.json();
 
-  return raw;
+  return raw as Results;
 };
 
 export const GetBacktest = async () => {
