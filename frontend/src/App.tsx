@@ -12,6 +12,7 @@ import TableCell from "@mui/material/TableCell";
 import { AddStrategy, Backtest, Values } from "./AddStrategy";
 import TextField from "@mui/material/TextField";
 import AppBar from "@mui/material/AppBar";
+import { ViewResults } from "./ViewResults";
 
 export interface Response {
   config: Values;
@@ -21,6 +22,7 @@ export interface Response {
 function App() {
   const [openAddStrategy, setOpenAddStrategy] = useState(false);
   const [tableVals, setTableVals] = useState<Backtest[] | undefined>(undefined);
+  const [viewId, setViewId] = useState("");
 
   const fetchData = async () => {
     try {
@@ -168,12 +170,21 @@ function App() {
                     <Button variant="contained" onClick={() => onRun(val.Id)}>
                       Run
                     </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => setViewId(val.Id)}
+                    >
+                      View Results
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {viewId != "" && (
+        <ViewResults id={viewId} open={true} onClose={() => setViewId("")} />
+      )}
     </>
   );
 }

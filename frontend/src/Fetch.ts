@@ -1,8 +1,7 @@
 import { Backtest } from "./AddStrategy";
+import { Results } from "./ViewResults";
 
 export const PostBacktest = async (backtest: Backtest): Promise<void> => {
-  const id = backtest.Id;
-
   const response = await fetch(
     `http://localhost:8080/backtest/${backtest.Id}`,
     {
@@ -17,6 +16,23 @@ export const PostBacktest = async (backtest: Backtest): Promise<void> => {
   if (!response.ok) {
     throw new Error("Request failed with status " + response.status);
   }
+};
+
+export const GetResults = async (id: string) => {
+  const response = await fetch(`http://localhost:8080/backtest/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Request failed with status " + response.status);
+  }
+
+  const raw = await response.json();
+
+  return raw as Results;
 };
 
 export const GetBacktest = async () => {
