@@ -1,21 +1,18 @@
-import { Backtest, Values } from "./ConfigurationDialog";
+import { Backtest } from "./AddStrategy";
 
-export const PostBacktest = async (data: Values): Promise<void> => {
-  const payload = {
-    ticker: data.ticker,
-    start: data.start,
-    end: data.end,
-    increment: data.increment,
-    startingCash: data.startingCash,
-  };
+export const PostBacktest = async (backtest: Backtest): Promise<void> => {
+  const id = backtest.Id;
 
-  const response = await fetch("http://localhost:8080/backtest", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  const response = await fetch(
+    `http://localhost:8080/backtest/${backtest.Id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(backtest),
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Request failed with status " + response.status);

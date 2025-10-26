@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Backtest, Values } from "./ConfigurationDialog";
-import { GetBacktest } from "./Fetch";
+import { GetBacktest, PostBacktest } from "./Fetch";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { AddStrategy } from "./AddStrategy";
+import { AddStrategy, Backtest, Values } from "./AddStrategy";
 import TextField from "@mui/material/TextField";
+import AppBar from "@mui/material/AppBar";
 
 export interface Response {
   config: Values;
@@ -66,9 +66,25 @@ function App() {
     );
   };
 
+  const onRun = async (id: string) => {
+    try {
+      const item = tableVals?.find((item) => item.Id === id);
+      if (!item) {
+        console.error("No backtest found with id:", id);
+        return;
+      }
+
+      await PostBacktest(item);
+    } catch (err) {
+      console.error("Error running backtesting:", err);
+    }
+  };
+
   return (
     <>
-      <Typography>Backtesting</Typography>
+      <AppBar>
+        <Typography variant="h5">Backtesting</Typography>
+      </AppBar>
       <Button variant="contained" onClick={() => setOpenAddStrategy(true)}>
         Add Strategy
       </Button>
@@ -98,6 +114,7 @@ function App() {
                       onChange={(e) =>
                         handleTableCellChange(val.Id, e.target.value, "Name")
                       }
+                      variant="standard"
                     />
                   </TableCell>
                   <TableCell>
@@ -148,6 +165,9 @@ function App() {
                       }
                       variant="standard"
                     />
+                    <Button variant="contained" onClick={() => onRun(val.Id)}>
+                      Run
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

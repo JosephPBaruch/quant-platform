@@ -1,0 +1,10 @@
+{
+  "config": {
+    "ticker": "asdfasdf",
+    "start": "asdfasdf",
+    "end": "asdfasdf",
+    "increment": "asdfasdf",
+    "startingCash": 0
+  },
+  "endingCash": 10000
+}
