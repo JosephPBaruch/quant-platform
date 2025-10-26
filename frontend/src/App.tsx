@@ -97,14 +97,14 @@ function App() {
           <TableBody>
             {tableVals !== undefined &&
               tableVals.map((val) => (
-                <>
+                <TableRow>
                   <TableCell>{val.Name}</TableCell>
                   <TableCell>{val.Params.ticker}</TableCell>
                   <TableCell>{val.Params.start}</TableCell>
                   <TableCell>{val.Params.end}</TableCell>
                   <TableCell>{val.Params.increment}</TableCell>
                   <TableCell>{val.Params.startingCash}</TableCell>
-                </>
+                </TableRow>
               ))}
           </TableBody>
         </Table>
