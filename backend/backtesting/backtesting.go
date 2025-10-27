@@ -1,6 +1,7 @@
 package backtesting
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -44,11 +45,14 @@ func (s *back) Execute(strat string, back Backtest) (float64, error) {
 	var profit float64
 
 	switch strat{
-		case "maStrategy":
+		case "MovingAverage":
+			fmt.Print("Executing MovingAverage")
 			profit = backtest(bars, startingCash, strategies.MaStrategy)
-		case "rsi":
+		case "RSI":
+			fmt.Print("Executing RSI")
 			profit = backtest(bars, startingCash, strategies.RsiStrategy)
 		default:
+			fmt.Print("Executing Default(MovingAverage)")
 			profit = backtest(bars, startingCash, strategies.MaStrategy)
 	}
 	

@@ -5,6 +5,12 @@ A lightweight backtesting platform with a Go backend and a React (Vite + MUI) fr
 - Backend: serves REST endpoints for strategies and backtest jobs (list, create, run, get results). Listens on http://localhost:8080.
 - Frontend: React app for managing strategies and viewing results. Talks to the backend at http://localhost:8080.
 
+## Example
+
+Here is an example of the application being used, backtesting AAPL using the moving average strategy:
+
+![Demo Photo](./docs/demo.png)
+
 ## Repository structure
 
 - backend/ — Go API server and backtesting engine
