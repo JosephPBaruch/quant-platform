@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { AddStrategy, Backtest, Values } from "./AddStrategy";
+import { AddStrategy } from "./AddStrategy";
 import TextField from "@mui/material/TextField";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -23,11 +23,7 @@ import { makeStyles } from "@mui/styles";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
-export interface Response {
-  config: Values;
-  endingCash: number;
-}
+import { Backtest } from "./types";
 
 const useStyles = makeStyles((theme: any) => ({
   toolbar: {

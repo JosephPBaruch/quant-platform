@@ -6,13 +6,13 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { GetResults } from "./Fetch";
 import Typography from "@mui/material/Typography";
-import { Backtest } from "./AddStrategy";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import CloseIcon from "@mui/icons-material/Close";
 import InsightsIcon from "@mui/icons-material/Insights";
+import { Results } from "./types";
 
 const useStyles = makeStyles((theme: any) => ({
   dialogTitle: { paddingBottom: theme.spacing ? theme.spacing(1) : 8 },
@@ -59,11 +59,6 @@ export interface ResultsDialogProps {
   id: string;
   open: boolean;
   onClose: () => void;
-}
-
-export interface Results {
-  Strat: Backtest;
-  EndCash: string;
 }
 
 export function ViewResults({

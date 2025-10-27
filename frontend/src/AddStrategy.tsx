@@ -22,28 +22,6 @@ const useStyles = makeStyles((theme: any) => ({
   dialogActions: { padding: theme.spacing ? theme.spacing(2) : 16 },
 }));
 
-export interface Values {
-  ticker: string;
-  start: string;
-  end: string;
-  increment: string;
-  startingCash: number;
-}
-
-export interface Backtest {
-  Id: string;
-  Name: string;
-  Params: Values;
-}
-
-const defaultValues: Values = {
-  ticker: "AAPL",
-  start: "2006-1-1",
-  end: "2008-1-1",
-  increment: "daily",
-  startingCash: 10000,
-};
-
 export interface DialogProps {
   open: boolean;
   onClose: () => void;
