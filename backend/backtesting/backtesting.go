@@ -46,6 +46,8 @@ func (s *back) Execute(strat string, back Backtest) (float64, error) {
 	switch strat{
 		case "maStrategy":
 			profit = backtest(bars, startingCash, strategies.MaStrategy)
+		case "rsi":
+			profit = backtest(bars, startingCash, strategies.RsiStrategy)
 		default:
 			profit = backtest(bars, startingCash, strategies.MaStrategy)
 	}
@@ -63,7 +65,7 @@ func (s *back) GetStrategies() ([]Strategy, error) {
 
 	for _, dir := range dirEntries {
 		name := dir.Name()
-		if name == "go.mod" || name == "go.sum" {
+		if name == "go.mod" || name == "go.sum" || name == "types.go" {
 			continue
 		}
 
