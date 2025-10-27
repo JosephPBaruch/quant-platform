@@ -2,10 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -19,14 +17,6 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(status)
 	_ = json.NewEncoder(w).Encode(v)
-}
-
-func parseID(p string) (int64, error) {
-	id, err := strconv.ParseInt(p, 10, 64)
-	if err != nil || id <= 0 {
-		return 0, fmt.Errorf("%w: invalid id", ErrBadRequest)
-	}
-	return id, nil
 }
 
 // very small CORS middleware (adjust origins as needed)
