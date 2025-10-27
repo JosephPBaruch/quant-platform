@@ -6,18 +6,19 @@ import (
 	"github.com/JosephPBaruch/strategies"
 )
 
-// type Backtest stuct {}
+// Backtesting describes the behavior for executing a backtest and listing strategies.
+type BACKTEST interface {
+	Execute(back Backtest) (float64, error)
+	GetStrategies() ([]Strategy, error)
+}
 
-// type BACKTEST interface {
-// 	Execute(back Bactest)(float64, error)
-// 	GetStrategies() ([]Strategy, error)
-// }
+// svc is a concrete implementation of Backtesting.
+type back struct{}
 
-// func NewBacktesting() BACKTEST {
-// 	return &Backtest{}
-// }
+// NewBacktesting returns a Backtesting implementation.
+func NewBacktesting() BACKTEST { return &back{} }
 
-func Execute(back Backtest) (float64, error) {
+func(s *back)  Execute(back Backtest) (float64, error) {
 	ticker := back.Ticker
 	start := back.Start
 	end := back.End
@@ -44,7 +45,7 @@ func Execute(back Backtest) (float64, error) {
 	return profit, nil
 }
 
-func GetStrategies() ([]Strategy, error) {
+func (s *back) GetStrategies() ([]Strategy, error) {
 
 	// read strategies directory and return the file names in the strategies format
 	dirEntries, err := os.ReadDir(strategies_dir)
@@ -67,15 +68,14 @@ func GetStrategies() ([]Strategy, error) {
 // Backtest runs the provided StrategyFunc over bars.
 // Behavior: each Buy signal attempts to buy one share (if cash available). Each Sell signal sells one oldest share (FIFO) if any exist.
 // Remaining positions are liquidated at the final close price.
-// Returns final balance and slice of executed trades.
-func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) (float64) {
+// Returns the profit (final balance - startBalance).
+func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) float64 {
 	if len(bars) == 0 {
 		return startBalance
 	}
 
 	balance := startBalance
 	account := []float64{} // purchase prices (FIFO)
-	trades := []Trade{}
 
 	// sliding windows for example strategies may be built by the strategy itself by inspecting bars.
 	for i := range bars {
@@ -87,14 +87,14 @@ func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) (
 			if balance >= price {
 				balance -= price
 				account = append(account, price)
-				trades = append(trades, Trade{Index: i, Type: strategies.Buy, Price: price})
+				// record trade if needed in the future
 			}
 		case strategies.Sell:
 			if len(account) > 0 {
 				// remove oldest
 				account = account[1:]
 				balance += price
-				trades = append(trades, Trade{Index: i, Type: strategies.Sell, Price: price})
+				// record trade if needed in the future
 			}
 		case strategies.Hold:
 			// do nothing
@@ -107,7 +107,7 @@ func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) (
 		for len(account) > 0 {
 			account = account[1:]
 			balance += lastPrice
-			trades = append(trades, Trade{Index: len(bars) - 1, Type: strategies.Sell, Price: lastPrice})
+			// record trade if needed in the future
 		}
 	}
 

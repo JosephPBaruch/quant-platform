@@ -11,12 +11,11 @@ import (
 type Service struct {
 	mu     sync.RWMutex
 	stratsStore []Strats
-	// TODO: Add backtesting interface here
+	backtest backtesting.BACKTEST
 }
 
 func NewService() *Service {
-	// TODO: Add backtesting here
-	return &Service{stratsStore: []Strats{}}
+	return &Service{stratsStore: []Strats{}, backtest: backtesting.NewBacktesting()}
 }
 
 // TODO: Create service interface
@@ -39,7 +38,7 @@ type StratName struct {
 
 func (s *Service) GetStrategies() ([]backtesting.Strategy, error) {
 
-	return backtesting.GetStrategies()
+	return s.backtest.GetStrategies()
 }
 
 func (s *Service) GetBacktest() []Strats {
@@ -66,7 +65,7 @@ func (s *Service) GetBacktestInfo(id uuid.UUID) (Strats, error) {
 
 func (s *Service) PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) error {
 	// Run the backtest
-	profit, err := backtesting.Execute(params)
+	profit, err := s.backtest.Execute(params)
 	if err != nil {
 		return err
 	}
