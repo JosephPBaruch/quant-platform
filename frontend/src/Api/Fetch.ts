@@ -1,16 +1,16 @@
-import { Backtest, Results } from "../types";
+import { Backtest, Values } from "../types";
 
-export const PostBacktest = async (backtest: Backtest): Promise<void> => {
-  const response = await fetch(
-    `http://localhost:8080/backtest/${backtest.Id}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(backtest),
-    }
-  );
+export const PostBacktest = async (
+  id: string,
+  backtest: Values
+): Promise<void> => {
+  const response = await fetch(`http://localhost:8080/backtest/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(backtest),
+  });
 
   if (!response.ok) {
     throw new Error("Request failed with status " + response.status);
@@ -31,7 +31,7 @@ export const GetResults = async (id: string) => {
 
   const raw = await response.json();
 
-  return raw as Results;
+  return raw as Backtest;
 };
 
 export const GetBacktest = async () => {

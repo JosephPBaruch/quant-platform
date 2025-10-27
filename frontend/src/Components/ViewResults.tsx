@@ -12,7 +12,7 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import CloseIcon from "@mui/icons-material/Close";
 import InsightsIcon from "@mui/icons-material/Insights";
-import { Results } from "../types";
+import { Backtest } from "../types";
 
 const useStyles = makeStyles((theme: any) => ({
   dialogTitle: { paddingBottom: theme.spacing ? theme.spacing(1) : 8 },
@@ -67,7 +67,7 @@ export function ViewResults({
   onClose,
 }: ResultsDialogProps): React.ReactElement {
   const classes = useStyles();
-  const [results, setResults] = useState<Results>();
+  const [results, setResults] = useState<Backtest>();
 
   const fetchResults = async () => {
     try {
@@ -114,7 +114,7 @@ export function ViewResults({
             <Box className={classes.endCashBox}>
               <Typography variant="subtitle2">Ending Cash</Typography>
               <Typography variant="h5" fontWeight={700}>
-                {results.EndCash}
+                {results.EndingCash}
               </Typography>
             </Box>
 
@@ -122,9 +122,7 @@ export function ViewResults({
               <Typography variant="subtitle2" className={classes.sectionLabel}>
                 Strategy
               </Typography>
-              <Typography>
-                Name: {results.Strat?.Name ?? "(no name)"}
-              </Typography>
+              <Typography>Name: {results.Name ?? "(no name)"}</Typography>
             </Box>
 
             <Box>
@@ -132,17 +130,12 @@ export function ViewResults({
                 Configuration
               </Typography>
               <Box component="pre" className={classes.configPre}>
-                {JSON.stringify(results.Strat?.Params ?? {}, null, 2)}
+                {JSON.stringify(results.Params ?? {}, null, 2)}
               </Box>
             </Box>
           </Stack>
         )}
       </DialogContent>
-      <DialogActions sx={{ p: 2 }}>
-        <Button onClick={() => onClose()} startIcon={<CloseIcon />}>
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }
