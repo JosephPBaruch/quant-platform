@@ -77,8 +77,6 @@ func fetchDataToCSV(ticker, startDate, endDate, frequency string) (fileName stri
 	return outputPath, nil
 }
 
-
-
 // loadBarsFromCSV reads the given CSV file path (with header) and returns a slice of Bar.
 func loadBarsFromCSV(path string) ([]strategies.Bar, error) {
 	f, err := os.Open(path)
