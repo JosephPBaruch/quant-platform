@@ -1,0 +1,10 @@
+{
+  "config": {
+    "ticker": "",
+    "start": "",
+    "end": "",
+    "increment": "",
+    "startingCash": 0
+  },
+  "endingCash": 10000
+}

@@ -9,6 +9,18 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme: any) => ({
+  dialogTitle: { paddingBottom: theme.spacing ? theme.spacing(1) : 8 },
+  divider: { marginTop: theme.spacing ? theme.spacing(1) : 8 },
+  dialogContent: { paddingTop: theme.spacing ? theme.spacing(2) : 16 },
+  dialogActions: { padding: theme.spacing ? theme.spacing(2) : 16 },
+}));
 
 export interface Values {
   ticker: string;
@@ -41,6 +53,7 @@ export function AddStrategy({
   open,
   onClose,
 }: DialogProps): React.ReactElement {
+  const classes = useStyles();
   const [strat, setStrat] = useState<string[]>([]);
   const [selected, setSelected] = useState("");
 
@@ -67,26 +80,56 @@ export function AddStrategy({
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add Strategy</DialogTitle>
-      <DialogContent>
-        <FormControl fullWidth>
-          <InputLabel id="select-strategy">Strategies</InputLabel>
-          <Select
-            labelId="select-strategy"
-            value={selected}
-            label="Strategies"
-            onChange={(e) => setSelected(e.target.value)}
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle className={classes.dialogTitle}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          Add Strategy
+          <Button
+            size="small"
+            color="inherit"
+            onClick={onClose}
+            startIcon={<CloseIcon />}
           >
-            {strat.length > 0 &&
-              strat.map((s) => <MenuItem value={s}>{s}</MenuItem>)}
-          </Select>
-        </FormControl>
+            Close
+          </Button>
+        </Stack>
+        <Divider className={classes.divider} />
+      </DialogTitle>
+      <DialogContent className={classes.dialogContent}>
+        <Stack spacing={2}>
+          <FormControl fullWidth>
+            <InputLabel id="select-strategy">Strategies</InputLabel>
+            <Select
+              labelId="select-strategy"
+              value={selected}
+              label="Strategies"
+              onChange={(e) => setSelected(e.target.value)}
+            >
+              {strat.length > 0 &&
+                strat.map((s) => (
+                  <MenuItem key={s} value={s}>
+                    {s}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Stack>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={() => onClose()}>Cancel</Button>
-        <Button variant="contained" onClick={() => onRun()}>
+      <DialogActions className={classes.dialogActions}>
+        <Button onClick={onClose} color="inherit" startIcon={<CloseIcon />}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          onClick={onRun}
+          startIcon={<AddIcon />}
+          disabled={!selected}
+        >
           Add
         </Button>
       </DialogActions>

@@ -56,7 +56,7 @@ func (s *Server) handlePostBacktest(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var strat StratName
 	if err := json.NewDecoder(r.Body).Decode(&strat); err != nil {
-		writeJSON(w, http.StatusBadRequest, apiError{Error: "invalid JSON body"})
+		writeJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -95,7 +95,7 @@ func (s *Server) handlePostBacktestInfo(w http.ResponseWriter, r *http.Request) 
 	defer r.Body.Close()
 	var backtest Strats
 	if err := json.NewDecoder(r.Body).Decode(&backtest); err != nil {
-		writeJSON(w, http.StatusBadRequest, apiError{Error: "invalid JSON body"})
+		writeJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
