@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/JosephPBaruch/react-go-sandbox/backend/backtesting"
 	"github.com/google/uuid"
 )
 
@@ -90,16 +91,27 @@ func (s *Server) handleGetBacktestInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handlePostBacktestInfo(w http.ResponseWriter, r *http.Request) {
-	// TODO:  get id parameter
+	
+	path := r.URL.Path
+	idStr := strings.TrimPrefix(path, "/backtest/")
+
+	// Optionally handle trailing slash cases:
+	idStr = strings.TrimSuffix(idStr, "/")
+
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		http.Error(w, "invalid UUID", http.StatusBadRequest)
+		return
+	}
 
 	defer r.Body.Close()
-	var backtest Strats
-	if err := json.NewDecoder(r.Body).Decode(&backtest); err != nil {
+	var params backtesting.Backtest
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
 		writeJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
-	err := s.store.PostBacktestInfo(backtest)
+	err = s.store.PostBacktestInfo(id, params)
 	if err != nil {
 		fmt.Print(err)
 		writeJSON(w, http.StatusInternalServerError, fmt.Errorf("Error occurred: %v", err))
