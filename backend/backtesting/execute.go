@@ -28,7 +28,7 @@ func Execute(back Backtest) (float64, error) {
 		return 0.0, err
 	}
 
-	profit, _ := BacktestFunc(bars, startingCash, strategies.MaStrategy)
+	profit := BacktestFunc(bars, startingCash, strategies.MaStrategy)
 
 	return profit, nil
 }
@@ -36,7 +36,7 @@ func Execute(back Backtest) (float64, error) {
 func GetStrategies() ([]Strategy, error) {
 
 	// read strategies directory and return the file names in the strategies format
-	dirEntries, err := os.ReadDir("./backtesting/strategies")
+	dirEntries, err := os.ReadDir(strategies_dir)
 	if err != nil {
 		return []Strategy{}, err
 	}

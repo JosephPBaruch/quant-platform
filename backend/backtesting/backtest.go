@@ -1,8 +1,6 @@
 package backtesting
 
 import (
-	"fmt"
-
 	"github.com/JosephPBaruch/backtesting/strategies"
 )
 
@@ -10,9 +8,9 @@ import (
 // Behavior: each Buy signal attempts to buy one share (if cash available). Each Sell signal sells one oldest share (FIFO) if any exist.
 // Remaining positions are liquidated at the final close price.
 // Returns final balance and slice of executed trades.
-func BacktestFunc(bars []strategies.Bar, startBalance float64, strat StrategyFunc) (float64, []Trade) {
+func BacktestFunc(bars []strategies.Bar, startBalance float64, strat StrategyFunc) (float64) {
 	if len(bars) == 0 {
-		return startBalance, nil
+		return startBalance
 	}
 
 	balance := startBalance
@@ -54,6 +52,5 @@ func BacktestFunc(bars []strategies.Bar, startBalance float64, strat StrategyFun
 	}
 
 	profit := balance - startBalance
-	fmt.Printf("Start: %.2f Final: %.2f Profit: %.2f\n", startBalance, balance, profit)
-	return profit, trades
+	return profit
 }
