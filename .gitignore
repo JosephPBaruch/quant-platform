@@ -88,3 +88,5 @@ node-repl-history
 
 backend/*.csv
 backend/backtesting/*.csv
+
+backend/tmp/*
