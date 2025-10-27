@@ -1,16 +1,34 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite + Material UI interface for configuring backtests and viewing results.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js and npm
+- Backend running at http://localhost:8080 (see repository root README for backend instructions)
 
-## React Compiler
+## Run the app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use the pipeline script (runs `npm run dev` under the hood):
 
-## Expanding the ESLint configuration
+```sh
+cd frontend
+./pipeline.sh
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Vite will start the dev server (typically at http://localhost:5173). The UI expects the backend at http://localhost:8080.
+
+If you change the backend port or host, update the fetch URLs in `src/Fetch.ts`.
+
+## Tech
+
+- React 19, Vite 7
+- MUI (Material UI) for components and theming
+- Styling consolidated with `makeStyles` where applicable
+
+## Project layout
+
+- `src/App.tsx` — main UI with strategy table and actions
+- `src/AddStrategy.tsx` — dialog to add a new strategy
+- `src/ViewResults.tsx` — dialog to view backtest results
+- `src/Fetch.ts` — API calls to the backend

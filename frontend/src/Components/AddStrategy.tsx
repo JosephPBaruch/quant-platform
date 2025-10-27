@@ -4,7 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { GetStrategies, PostStrategy } from "./Fetch";
+import { GetStrategies, PostStrategy } from "../Api/Fetch";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -21,28 +21,6 @@ const useStyles = makeStyles((theme: any) => ({
   dialogContent: { paddingTop: theme.spacing ? theme.spacing(2) : 16 },
   dialogActions: { padding: theme.spacing ? theme.spacing(2) : 16 },
 }));
-
-export interface Values {
-  ticker: string;
-  start: string;
-  end: string;
-  increment: string;
-  startingCash: number;
-}
-
-export interface Backtest {
-  Id: string;
-  Name: string;
-  Params: Values;
-}
-
-const defaultValues: Values = {
-  ticker: "AAPL",
-  start: "2006-1-1",
-  end: "2008-1-1",
-  increment: "daily",
-  startingCash: 10000,
-};
 
 export interface DialogProps {
   open: boolean;

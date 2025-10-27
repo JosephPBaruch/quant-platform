@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { GetBacktest, PostBacktest } from "./Fetch";
+import { GetBacktest, PostBacktest } from "./Api/Fetch";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { AddStrategy, Backtest, Values } from "./AddStrategy";
+import { AddStrategy } from "./Components/AddStrategy";
 import TextField from "@mui/material/TextField";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,16 +17,12 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { ViewResults } from "./ViewResults";
+import { ViewResults } from "./Components/ViewResults";
 import { makeStyles } from "@mui/styles";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
-export interface Response {
-  config: Values;
-  endingCash: number;
-}
+import { Backtest } from "./types";
 
 const useStyles = makeStyles((theme: any) => ({
   toolbar: {
