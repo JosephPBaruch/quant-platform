@@ -11,7 +11,7 @@ func Execute(back Backtest) (float64, error) {
 	start := back.Start
 	end := back.End
 	increment := back.Increment
-	startingCash := 10000.0
+	startingCash := back.StartingCash
 
 	fileName, err := fetchDataToCSV(ticker, start, end, increment)
 	if err != nil {
@@ -19,6 +19,11 @@ func Execute(back Backtest) (float64, error) {
 	}
 
 	bars, err := loadBarsFromCSV(fileName)
+	if err != nil {
+		return 0.0, err
+	}
+
+	err = os.Remove(fileName)
 	if err != nil {
 		return 0.0, err
 	}
