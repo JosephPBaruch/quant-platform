@@ -11,11 +11,9 @@ import (
 )
 
 type Server struct {
-	service *Service
+	service SERVICE
 	mux   *http.ServeMux
 }
-
-// TODO: Create server interface
 
 func NewServer() *Server {
 	s := &Server{service: NewService(), mux: http.NewServeMux()}

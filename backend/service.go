@@ -1,55 +1,44 @@
 package main
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/JosephPBaruch/backtesting"
 	"github.com/google/uuid"
 )
 
-type Service struct {
+type SERVICE interface {
+	GetStrategies() ([]backtesting.Strategy, error)
+	GetBacktest() []Strats
+	PostBacktest(strat StratName)
+	GetBacktestInfo(id uuid.UUID) (Strats, error)
+	PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) error
+}
+
+type service struct {
 	mu     sync.RWMutex
 	stratsStore []Strats
 	backtest backtesting.BACKTEST
 }
 
-func NewService() *Service {
-	return &Service{stratsStore: []Strats{}, backtest: backtesting.NewBacktesting()}
+func NewService() SERVICE {
+	return &service{stratsStore: []Strats{}, backtest: backtesting.NewBacktesting()}
 }
 
-// TODO: Create service interface
-
-var (
-	ErrNotFound   = errors.New("not found")
-	ErrBadRequest = errors.New("bad request")
-)
-
-type Strats struct {
-	Id     uuid.UUID
-	Name   string
-	Params backtesting.Backtest
-	EndingCash float64
-}
-
-type StratName struct {
-	Name string
-}
-
-func (s *Service) GetStrategies() ([]backtesting.Strategy, error) {
+func (s *service) GetStrategies() ([]backtesting.Strategy, error) {
 
 	return s.backtest.GetStrategies()
 }
 
-func (s *Service) GetBacktest() []Strats {
+func (s *service) GetBacktest() []Strats {
 	return s.stratsStore
 }
 
-func (s *Service) PostBacktest(strat StratName) {
+func (s *service) PostBacktest(strat StratName) {
 	s.stratsStore = append(s.stratsStore, Strats{Id: uuid.New(), Name: strat.Name, Params: backtesting.Backtest{}})
 }
 
-func (s *Service) GetBacktestInfo(id uuid.UUID) (Strats, error) {
+func (s *service) GetBacktestInfo(id uuid.UUID) (Strats, error) {
 
 	returnStrat := Strats{}
 
@@ -63,7 +52,7 @@ func (s *Service) GetBacktestInfo(id uuid.UUID) (Strats, error) {
 	return returnStrat, nil
 }
 
-func (s *Service) PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) error {
+func (s *service) PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) error {
 	// Find the target index once; no second loop.
 	s.mu.Lock()
 	idx := -1
