@@ -64,20 +64,32 @@ func (s *Service) GetBacktestInfo(id uuid.UUID) (Strats, error) {
 }
 
 func (s *Service) PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) error {
-	// Run the backtest
-	profit, err := s.backtest.Execute(params)
+	// Find the target index once; no second loop.
+	s.mu.Lock()
+	idx := -1
+	var strat string
+	for i := range s.stratsStore {
+		if s.stratsStore[i].Id == Id {
+			idx = i
+			strat = s.stratsStore[i].Name
+			break
+		}
+	}
+	s.mu.Unlock()
+
+	if idx == -1 {
+		return ErrNotFound
+	}
+
+	// Run the backtest with the selected strategy name
+	profit, err := s.backtest.Execute(strat, params)
 	if err != nil {
 		return err
 	}
 
 	s.mu.Lock()
-	for i := range s.stratsStore {
-		if s.stratsStore[i].Id == Id {
-			s.stratsStore[i].Params = params
-			s.stratsStore[i].EndingCash = profit
-			break
-		}
-	}
+	s.stratsStore[idx].Params = params
+	s.stratsStore[idx].EndingCash = profit
 	s.mu.Unlock()
 
 	return nil
