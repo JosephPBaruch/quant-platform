@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/JosephPBaruch/backtesting/strategies"
+	"github.com/JosephPBaruch/strategies"
 	"github.com/joho/godotenv"
 )
 
@@ -76,8 +76,6 @@ func fetchDataToCSV(ticker, startDate, endDate, frequency string) (fileName stri
 
 	return outputPath, nil
 }
-
-
 
 // loadBarsFromCSV reads the given CSV file path (with header) and returns a slice of Bar.
 func loadBarsFromCSV(path string) ([]strategies.Bar, error) {

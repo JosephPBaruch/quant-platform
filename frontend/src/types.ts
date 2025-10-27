@@ -10,14 +10,5 @@ export interface Backtest {
   Id: string;
   Name: string;
   Params: Values;
-}
-
-export interface Results {
-  Strat: Backtest;
-  EndCash: string;
-}
-
-export interface Response {
-  config: Values;
-  endingCash: number;
+  EndingCash: number;
 }

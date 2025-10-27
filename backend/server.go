@@ -6,16 +6,17 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/JosephPBaruch/backtesting"
 	"github.com/google/uuid"
 )
 
 type Server struct {
-	store *Store
+	service SERVICE
 	mux   *http.ServeMux
 }
 
 func NewServer() *Server {
-	s := &Server{store: NewStore(), mux: http.NewServeMux()}
+	s := &Server{service: NewService(), mux: http.NewServeMux()}
 
 	// Go 1.22 patterns: "METHOD /path" and "/path/{var}"
 	s.mux.HandleFunc("GET /strategies", s.handleGetStrategies)
@@ -35,7 +36,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleGetStrategies(w http.ResponseWriter, r *http.Request) {
 
-	strategies, err := s.store.GetStrategies()
+	strategies, err := s.service.GetStrategies()
 
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, err)
@@ -47,7 +48,7 @@ func (s *Server) handleGetStrategies(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleGetBacktest(w http.ResponseWriter, r *http.Request) {
 
-	strats := s.store.GetBacktest()
+	strats := s.service.GetBacktest()
 	writeJSON(w, http.StatusOK, strats)
 }
 
@@ -60,7 +61,7 @@ func (s *Server) handlePostBacktest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s.store.PostBacktest(strat)
+	s.service.PostBacktest(strat)
 
 	writeJSON(w, http.StatusOK, nil)
 }
@@ -80,7 +81,7 @@ func (s *Server) handleGetBacktestInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	config, err := s.store.GetBacktestInfo(id)
+	config, err := s.service.GetBacktestInfo(id)
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, err)
 		return
@@ -90,16 +91,27 @@ func (s *Server) handleGetBacktestInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handlePostBacktestInfo(w http.ResponseWriter, r *http.Request) {
-	// TODO:  get id parameter
+	
+	path := r.URL.Path
+	idStr := strings.TrimPrefix(path, "/backtest/")
+
+	// Optionally handle trailing slash cases:
+	idStr = strings.TrimSuffix(idStr, "/")
+
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		http.Error(w, "invalid UUID", http.StatusBadRequest)
+		return
+	}
 
 	defer r.Body.Close()
-	var backtest Strats
-	if err := json.NewDecoder(r.Body).Decode(&backtest); err != nil {
+	var params backtesting.Backtest
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
 		writeJSON(w, http.StatusBadRequest, err)
 		return
 	}
 
-	err := s.store.PostBacktestInfo(backtest)
+	err = s.service.PostBacktestInfo(id, params)
 	if err != nil {
 		fmt.Print(err)
 		writeJSON(w, http.StatusInternalServerError, fmt.Errorf("Error occurred: %v", err))

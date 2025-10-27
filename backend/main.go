@@ -5,8 +5,6 @@ import (
 	"net/http"
 )
 
-// --- main ---
-
 func main() {
 	srv := NewServer()
 

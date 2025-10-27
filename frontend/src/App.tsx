@@ -127,7 +127,7 @@ function App() {
         return;
       }
 
-      await PostBacktest(item);
+      await PostBacktest(id, item.Params);
     } catch (err) {
       console.error("Error running backtesting:", err);
     }

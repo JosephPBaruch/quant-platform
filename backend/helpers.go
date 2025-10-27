@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-// --- HTTP helpers (encode/parse/respond/middleware) ---
-
 type apiError struct {
 	Error string `json:"error"`
 }
