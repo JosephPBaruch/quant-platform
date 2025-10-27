@@ -1,4 +1,4 @@
-import { Backtest, Results } from "./types";
+import { Backtest, Results } from "../types";
 
 export const PostBacktest = async (backtest: Backtest): Promise<void> => {
   const response = await fetch(
