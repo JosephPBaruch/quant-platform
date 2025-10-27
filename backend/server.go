@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/JosephPBaruch/react-go-sandbox/backend/backtesting"
+	"github.com/JosephPBaruch/backtesting"
 	"github.com/google/uuid"
 )
 

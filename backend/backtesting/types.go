@@ -1,6 +1,6 @@
 package backtesting
 
-import "github.com/JosephPBaruch/backtesting/strategies"
+import "github.com/JosephPBaruch/strategies"
 
 // StrategyFunc is a pluggable strategy function that is called for each bar index.
 // It receives the index (0-based) and the full bars slice so strategies can lookback.

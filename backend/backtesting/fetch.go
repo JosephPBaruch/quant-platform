@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/JosephPBaruch/backtesting/strategies"
+	"github.com/JosephPBaruch/strategies"
 	"github.com/joho/godotenv"
 )
 

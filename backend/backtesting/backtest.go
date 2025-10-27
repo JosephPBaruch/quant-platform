@@ -1,7 +1,7 @@
 package backtesting
 
 import (
-	"github.com/JosephPBaruch/backtesting/strategies"
+	"github.com/JosephPBaruch/strategies"
 )
 
 // Backtest runs the provided StrategyFunc over bars.

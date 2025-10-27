@@ -3,7 +3,7 @@ package backtesting
 import (
 	"os"
 
-	"github.com/JosephPBaruch/backtesting/strategies"
+	"github.com/JosephPBaruch/strategies"
 )
 
 func Execute(back Backtest) (float64, error) {
