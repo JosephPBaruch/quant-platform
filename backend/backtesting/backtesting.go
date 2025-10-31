@@ -42,20 +42,24 @@ func (s *back) Execute(strat string, back Backtest) (float64, error) {
 		return 0.0, err
 	}
 
-	var profit float64
+	var strategy strategies.Strategy
 
-	switch strat{
-		case "MovingAverage":
-			fmt.Print("Executing MovingAverage")
-			profit = backtest(bars, startingCash, strategies.MaStrategy)
-		case "RSI":
-			fmt.Print("Executing RSI")
-			profit = backtest(bars, startingCash, strategies.RsiStrategy)
-		default:
-			fmt.Print("Executing Default(MovingAverage)")
-			profit = backtest(bars, startingCash, strategies.MaStrategy)
+	switch strat {
+	case "MovingAverage":
+		fmt.Println("Executing MovingAverage")
+		strategy = strategies.NewMovingAverageStrategy()
+	case "RSI":
+		fmt.Println("Executing RSI")
+		strategy = strategies.NewRSIStrategy()
+	case "RiskAwareMA":
+		fmt.Println("Executing RiskAwareMA")
+		strategy = strategies.NewRiskAwareMaStrategy(80.0)
+	default:
+		fmt.Println("Executing Default(MovingAverage)")
+		strategy = strategies.NewMovingAverageStrategy()
 	}
-	
+
+	profit := backtest(bars, startingCash, strategy)
 	return profit, nil
 }
 
@@ -81,22 +85,54 @@ func (s *back) GetStrategies() ([]Strategy, error) {
 	return strats, nil
 }
 
-// Backtest runs the provided StrategyFunc over bars.
+// Backtest runs the provided Strategy over bars.
 // Behavior: each Buy signal attempts to buy one share (if cash available). Each Sell signal sells one oldest share (FIFO) if any exist.
 // Remaining positions are liquidated at the final close price.
 // Returns the profit (final balance - startBalance).
-func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) float64 {
+func backtest(bars []strategies.Bar, startBalance float64, strat strategies.Strategy) float64 {
 	if len(bars) == 0 {
 		return startBalance
 	}
 
 	balance := startBalance
 	account := []float64{} // purchase prices (FIFO)
+	realizedPnL := 0.0
 
 	// sliding windows for example strategies may be built by the strategy itself by inspecting bars.
 	for i := range bars {
-		sig := strat(i, bars)
 		price := bars[i].Open
+
+		// Calculate portfolio state
+		positionValue := float64(len(account)) * price
+		unrealizedPnL := positionValue
+		for _, purchasePrice := range account {
+			unrealizedPnL -= purchasePrice
+		}
+
+		totalValue := balance + positionValue
+		positionRatio := 0.0
+		exposurePercent := 0.0
+		if startBalance > 0 {
+			positionRatio = positionValue / startBalance
+		}
+		if totalValue > 0 {
+			exposurePercent = positionValue / totalValue * 100
+		}
+
+		portfolio := strategies.PortfolioState{
+			Cash:            balance,
+			Positions:       append([]float64{}, account...), // Copy to prevent modification
+			NumShares:       len(account),
+			InitialCapital:  startBalance,
+			CurrentPrice:    price,
+			UnrealizedPnL:   unrealizedPnL,
+			RealizedPnL:     realizedPnL,
+			TotalValue:      totalValue,
+			PositionRatio:   positionRatio,
+			ExposurePercent: exposurePercent,
+		}
+
+		sig := strat.Execute(i, bars, portfolio)
 
 		switch sig {
 		case strategies.Buy:
@@ -107,6 +143,9 @@ func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) f
 			}
 		case strategies.Sell:
 			if len(account) > 0 {
+				// Calculate realized P&L
+				soldPrice := account[0]
+				realizedPnL += price - soldPrice
 				// remove oldest
 				account = account[1:]
 				balance += price
@@ -121,6 +160,8 @@ func backtest(bars []strategies.Bar, startBalance float64, strat StrategyFunc) f
 	if len(account) > 0 {
 		lastPrice := bars[len(bars)-1].Close
 		for len(account) > 0 {
+			soldPrice := account[0]
+			realizedPnL += lastPrice - soldPrice
 			account = account[1:]
 			balance += lastPrice
 			// record trade if needed in the future

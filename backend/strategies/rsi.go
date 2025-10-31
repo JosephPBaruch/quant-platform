@@ -2,6 +2,41 @@ package strategies
 
 import "math"
 
+// RSIStrategy implements a momentum/mean-reversion strategy using 14-day RSI
+type RSIStrategy struct{}
+
+// NewRSIStrategy creates a new instance of the RSI strategy
+func NewRSIStrategy() Strategy {
+	return &RSIStrategy{}
+}
+
+// Name returns the strategy name
+func (s *RSIStrategy) Name() string {
+	return "RSI"
+}
+
+// Execute implements the Strategy interface
+// Rules:
+//   - RSI < 30  => Buy  (oversold, expecting bounce)
+//   - RSI > 70  => Sell (overbought, expecting pullback)
+//   - else      => Hold
+func (s *RSIStrategy) Execute(i int, bars []Bar, portfolio PortfolioState) Signal {
+	const period = 14
+
+	val, ok := rsi(i, bars, period)
+	if !ok {
+		return Hold
+	}
+
+	if val < 30.0 {
+		return Buy
+	}
+	if val > 70.0 {
+		return Sell
+	}
+	return Hold
+}
+
 // rsi computes the 14-period Relative Strength Index ending at index i.
 // It returns (rsiValue, ok). ok == false if there wasn't enough data.
 func rsi(i int, bars []Bar, period int) (float64, bool) {
@@ -44,7 +79,7 @@ func rsi(i int, bars []Bar, period int) (float64, bool) {
 	rs := avgGain / avgLoss
 
 	// RSI = 100 - (100 / (1 + RS))
-	rsi := 100.0 - (100.0 / (1.0+rs))
+	rsi := 100.0 - (100.0 / (1.0 + rs))
 
 	// numeric safety (not strictly required, but nice)
 	if math.IsNaN(rsi) || math.IsInf(rsi, 0) {
@@ -54,24 +89,11 @@ func rsi(i int, bars []Bar, period int) (float64, bool) {
 	return rsi, true
 }
 
-// RsiStrategy is a simple momentum/mean-reversion strategy using 14-day RSI.
-// Rules:
-//   - RSI < 30  => Buy  (oversold, expecting bounce)
-//   - RSI > 70  => Sell (overbought, expecting pullback)
-//   - else      => Hold
+// DEPRECATED: Legacy function for backward compatibility
+// Use NewRSIStrategy() instead
 func RsiStrategy(i int, bars []Bar) Signal {
-	const period = 14
-
-	val, ok := rsi(i, bars, period)
-	if !ok {
-		return Hold
-	}
-
-	if val < 30.0 {
-		return Buy
-	}
-	if val > 70.0 {
-		return Sell
-	}
-	return Hold
+	s := &RSIStrategy{}
+	// Create empty portfolio state for legacy compatibility
+	portfolio := PortfolioState{}
+	return s.Execute(i, bars, portfolio)
 }

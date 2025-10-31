@@ -1,19 +1,20 @@
 package strategies
 
-// average computes arithmetic mean of a slice of float64. Returns 0 for empty slice.
-func average(nums []float64) float64 {
-	if len(nums) == 0 {
-		return 0
-	}
-	sum := 0.0
-	for _, v := range nums {
-		sum += v
-	}
-	return sum / float64(len(nums))
+// MovingAverageStrategy implements a 10/50 MA crossover strategy
+type MovingAverageStrategy struct{}
+
+// NewMovingAverageStrategy creates a new instance of the Moving Average strategy
+func NewMovingAverageStrategy() Strategy {
+	return &MovingAverageStrategy{}
 }
 
-// example 10/50 MA strategy implemented as a StrategyFunc
-func MaStrategy(i int, bars []Bar) Signal {
+// Name returns the strategy name
+func (s *MovingAverageStrategy) Name() string {
+	return "MovingAverage"
+}
+
+// Execute implements the Strategy interface
+func (s *MovingAverageStrategy) Execute(i int, bars []Bar, portfolio PortfolioState) Signal {
 	// need at least 50 bars (i is index of current bar)
 	if i < 49 {
 		return Hold
@@ -36,4 +37,25 @@ func MaStrategy(i int, bars []Bar) Signal {
 		return Sell
 	}
 	return Hold
+}
+
+// average computes arithmetic mean of a slice of float64. Returns 0 for empty slice.
+func average(nums []float64) float64 {
+	if len(nums) == 0 {
+		return 0
+	}
+	sum := 0.0
+	for _, v := range nums {
+		sum += v
+	}
+	return sum / float64(len(nums))
+}
+
+// DEPRECATED: Legacy function for backward compatibility
+// Use NewMovingAverageStrategy() instead
+func MaStrategy(i int, bars []Bar) Signal {
+	s := &MovingAverageStrategy{}
+	// Create empty portfolio state for legacy compatibility
+	portfolio := PortfolioState{}
+	return s.Execute(i, bars, portfolio)
 }
