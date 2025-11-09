@@ -10,7 +10,7 @@ import (
 
 // BACKTEST describes the behavior for executing a backtest and listing strategies.
 type BACKTEST interface {
-	Execute(strat string, back Backtest) (float64, []DayState, error)
+	Execute(strat string, back Backtest) (float64, []DayState, []DayState, error)
 	GetStrategies() ([]Strategy, error)
 }
 
@@ -20,7 +20,7 @@ type back struct{}
 // NewBacktesting returns a Backtesting implementation.
 func NewBacktesting() BACKTEST { return &back{} }
 
-func (s *back) Execute(strat string, back Backtest) (float64, []DayState, error) {
+func (s *back) Execute(strat string, back Backtest) (float64, []DayState, []DayState, error) {
 	ticker := back.Ticker
 	start := back.Start
 	end := back.End
@@ -29,17 +29,17 @@ func (s *back) Execute(strat string, back Backtest) (float64, []DayState, error)
 
 	fileName, err := fetchDataToCSV(ticker, start, end, increment)
 	if err != nil {
-		return 0.0, nil, err
+		return 0.0, nil, nil, err
 	}
 
 	bars, err := loadBarsFromCSV(fileName)
 	if err != nil {
-		return 0.0, nil, err
+		return 0.0, nil, nil,err
 	}
 
 	err = os.Remove(fileName)
 	if err != nil {
-		return 0.0, nil, err
+		return 0.0, nil, nil,err
 	}
 
 	var strategy strategies.Strategy
@@ -59,8 +59,8 @@ func (s *back) Execute(strat string, back Backtest) (float64, []DayState, error)
 		strategy = strategies.NewMovingAverageStrategy()
 	}
 
-	profit, dayState := backtest(bars, startingCash, strategy)
-	return profit, dayState, nil
+	profit, dayState, baseState := backtest(bars, startingCash, strategy)
+	return profit, dayState, baseState, nil
 }
 
 func (s *back) GetStrategies() ([]Strategy, error) {
@@ -86,7 +86,7 @@ func (s *back) GetStrategies() ([]Strategy, error) {
 }
 
 type DayState struct {
-	Day string `json:"day"`
+	Day int `json:"day"`
 	TotalValue float64 `json:"totalValue"`
 }
 
@@ -94,13 +94,18 @@ type DayState struct {
 // Behavior: each Buy signal attempts to buy one share (if cash available). Each Sell signal sells one oldest share (FIFO) if any exist.
 // Remaining positions are liquidated at the final close price.
 // Returns the profit (final balance - startBalance).
-func backtest(bars []strategies.Bar, startBalance float64, strat strategies.Strategy) (float64, []DayState) {
+func backtest(bars []strategies.Bar, startBalance float64, strat strategies.Strategy) (float64, []DayState, []DayState) {
 	if len(bars) == 0 {
-		return 0.0, []DayState{}
+		return 0.0, []DayState{}, []DayState{}
 	}
 
 
+	startCost := bars[0].Open
+
+	startCountPotential := startBalance / startCost
+
 	dayState := make([]DayState, 0, len(bars))
+	baseState := make([]DayState, 0, len(bars))
 
 	balance := startBalance
 	account := []float64{} // purchase prices (FIFO)
@@ -142,7 +147,9 @@ func backtest(bars []strategies.Bar, startBalance float64, strat strategies.Stra
 
 		sig := strat.Execute(i, bars, portfolio)
 
-		dayState = append(dayState, DayState{Day: bars[i].Date, TotalValue: portfolio.TotalValue})
+		dayState = append(dayState, DayState{Day: i, TotalValue: portfolio.TotalValue})
+
+		baseState = append(baseState, DayState{Day: i, TotalValue: price * startCountPotential})
 
 		switch sig {
 		case strategies.Buy:
@@ -179,5 +186,5 @@ func backtest(bars []strategies.Bar, startBalance float64, strat strategies.Stra
 	}
 
 	profit := balance - startBalance
-	return profit, dayState
+	return profit, dayState, baseState
 }

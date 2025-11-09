@@ -10,6 +10,7 @@ type Strats struct {
 	Name   string
 	Params backtesting.Backtest
 	DayState []backtesting.DayState
+	BaseState []backtesting.DayState
 	EndingCash float64
 }
 

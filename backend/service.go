@@ -71,7 +71,7 @@ func (s *service) PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) er
 	}
 
 	// Run the backtest with the selected strategy name
-	profit, dayState, err := s.backtest.Execute(strat, params)
+	profit, dayState, baseState, err := s.backtest.Execute(strat, params)
 	if err != nil {
 		return err
 	}
@@ -80,6 +80,7 @@ func (s *service) PostBacktestInfo(Id uuid.UUID, params backtesting.Backtest) er
 	s.stratsStore[idx].Params = params
 	s.stratsStore[idx].EndingCash = profit
 	s.stratsStore[idx].DayState = dayState
+	s.stratsStore[idx].BaseState = baseState
 	s.mu.Unlock()
 
 	return nil

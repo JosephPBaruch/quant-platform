@@ -6,9 +6,16 @@ export interface Values {
   startingCash: number;
 }
 
+export interface DayState {
+  day: number;
+  totalValue: number;
+}
+
 export interface Backtest {
   Id: string;
   Name: string;
   Params: Values;
   EndingCash: number;
+  DayState: DayState[];
+  BaseState: DayState[];
 }

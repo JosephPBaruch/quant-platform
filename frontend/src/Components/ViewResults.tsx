@@ -12,7 +12,8 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import CloseIcon from "@mui/icons-material/Close";
 import InsightsIcon from "@mui/icons-material/Insights";
-import { Backtest } from "../types";
+import { Backtest, DayState } from "../types";
+import { LineChart } from "@mui/x-charts/LineChart";
 
 const useStyles = makeStyles((theme: any) => ({
   dialogTitle: { paddingBottom: theme.spacing ? theme.spacing(1) : 8 },
@@ -83,6 +84,16 @@ export function ViewResults({
     fetchResults();
   }, [open]);
 
+  const getData = () => {
+    if (results) {
+      return results.DayState.map((d, i) => ({
+        day: d.day,
+        totalValue: d.totalValue,
+        baseValue: results.BaseState[i]?.totalValue ?? null,
+      }));
+    }
+  };
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle className={classes.dialogTitle}>
@@ -116,6 +127,28 @@ export function ViewResults({
               <Typography variant="h5" fontWeight={700}>
                 {results.EndingCash}
               </Typography>
+            </Box>
+            <Box>
+              <LineChart
+                dataset={getData()}
+                xAxis={[{ dataKey: "day", label: "Date" }]}
+                series={[
+                  {
+                    dataKey: "totalValue",
+                    label: "Backtest Value",
+                    color: "#1976d2",
+                  },
+                  {
+                    dataKey: "baseValue",
+                    label: "Base Value",
+                    color: "#9c27b0",
+                  },
+                ]}
+                sx={{
+                  "& .MuiMarkElement-root": { display: "none" },
+                }}
+                height={350}
+              />
             </Box>
 
             <Box>
