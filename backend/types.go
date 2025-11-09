@@ -9,6 +9,7 @@ type Strats struct {
 	Id     uuid.UUID
 	Name   string
 	Params backtesting.Backtest
+	DayState []backtesting.DayState
 	EndingCash float64
 }
 

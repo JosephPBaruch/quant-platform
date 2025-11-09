@@ -24,3 +24,5 @@ type Backtest struct {
 type Strategy struct {
 	Name string `json:"name"` 
 }
+
+
